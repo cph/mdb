@@ -1,6 +1,6 @@
 # Mdb
 
-TODO: Write a gem description
+Wraps [mdb-tools](https://github.com/brianb/mdbtools) for reading Microsoft Access databases
 
 ## Installation
 
@@ -18,7 +18,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+database = Mdb.open(PATH_TO_FILE)
+
+# list tables in the database
+database.tables 
+
+# read the records in a table
+database[:Movies]
+```
 
 ## Contributing
 
