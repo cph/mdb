@@ -34,7 +34,7 @@ module Mdb
     
     def read_csv(table)
       csv = execute "mdb-export -d \\| #{file_name} #{table}"
-      if csv.blank?
+      if csv.empty?
         raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" if !tables.member?(table.to_s)
         raise Error, "An error occurred when reading #{table.inspect} in #{file_name.inspect}"
       end
@@ -122,7 +122,7 @@ module Mdb
           stdout = `#{command} 2> #{t.path}`
           t.rewind
           stderr = t.read.strip
-          break if stderr.blank?
+          break if stderr.empty?
           
           # Rails.logger.error("[mdb-tools] executed `#{command}`; got \"#{stderr}\"")
         end
