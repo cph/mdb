@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module Mdb
   class Database
     
@@ -91,9 +93,12 @@ module Mdb
     
     
     def read_each(table, &block)
+      count = 0
       read_csv(table).each_line do |line|
         yield line.chomp
+        count += 1
       end
+      count # don't return the result of read_csv; discard it
     end
     
     
