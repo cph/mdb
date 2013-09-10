@@ -46,4 +46,18 @@ class MdbTest < ActiveSupport::TestCase
   
   
   
+  test "should return an array of columns for at able" do
+    database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
+    assert_equal [:ID, :FirstName, :LastName], database.columns(:Actors)
+  end
+  
+  test "should treat quotation marks correctly" do
+    database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
+    actor = database.read(:Actors).first
+    assert_equal "Chris", actor[:FirstName] # as opposed to "\"Chris\""
+  end
+  
+  
+  
+  
 end
