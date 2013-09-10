@@ -116,17 +116,7 @@ module Mdb
     
     
     def execute(command)
-      stdout = ""
-      (1..5).each do |try|
-        Tempfile.open(rand(99999999).to_s) do |t|
-          stdout = `#{command} 2> #{t.path}`
-          t.rewind
-          stderr = t.read.strip
-          break if stderr.empty?
-          
-          # Rails.logger.error("[mdb-tools] executed `#{command}`; got \"#{stderr}\"")
-        end
-      end
+      stdout = `#{command} 2> /dev/null`
       
       if stdout.respond_to?(:force_encoding)
         stdout.force_encoding("Windows-1252")
