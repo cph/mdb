@@ -36,10 +36,7 @@ module Mdb
     
     def read_csv(table)
       csv = execute "mdb-export -d \\| #{file_name} #{table}"
-      if csv.empty?
-        raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" if !tables.member?(table.to_s)
-        raise Error, "An error occurred when reading #{table.inspect} in #{file_name.inspect}"
-      end
+      empty_table!(table) if csv.empty?
       csv
     end
     
@@ -85,12 +82,16 @@ module Mdb
         end
       end
       
-      if count == 0
-        raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" if !tables.member?(table.to_s)
-        raise Error, "An error occurred when reading #{table.inspect} in #{file_name.inspect}"
-      end
+      empty_table!(table) if count == 0
       
-      count # don't return the result of read_csv; discard it
+      count
+    end
+    
+    
+    
+    def empty_table!(table)
+      raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" if !tables.member?(table.to_s)
+      raise Error, "An error occurred when reading #{table.inspect} in #{file_name.inspect}"
     end
     
     
