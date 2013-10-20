@@ -1,0 +1,8 @@
+# .travis.yml
+language: ruby
+rvm:
+  - 2.0.0
+script:
+  - bundle exec rake test
+before_install:
+  - sudo apt-get install mdbtools
