@@ -1,5 +1,6 @@
 # Mdb
 
+[![Build Status](https://travis-ci.org/concordia-publishing-house/mdb.png?branch=master)](https://travis-ci.org/concordia-publishing-house/mdb)
 [![Code Climate](https://codeclimate.com/github/concordia-publishing-house/mdb.png)](https://codeclimate.com/github/concordia-publishing-house/mdb)
 
 Wraps [mdb-tools](https://github.com/brianb/mdbtools) for reading Microsoft Access databases
