@@ -1,5 +1,7 @@
 # Mdb
 
+[![Code Climate](https://codeclimate.com/github/concordia-publishing-house/mdb.png)](https://codeclimate.com/github/concordia-publishing-house/mdb)
+
 Wraps [mdb-tools](https://github.com/brianb/mdbtools) for reading Microsoft Access databases
 
 ## Installation
