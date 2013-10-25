@@ -35,10 +35,7 @@ class MdbTest < ActiveSupport::TestCase
   test "should raise an exception when mdb-tools is not installed" do
     assert_raises(Mdb::MdbToolsNotInstalledError) do
       database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
-      
-      # This test assumes that the tool `which` is in `/usr/bin`
-      # while `mdb-export` et al are installed elsewhere.
-      with_env "PATH" => "/usr/bin" do
+      with_env "PATH" => "/nope" do
         database.read :Villains
       end
     end
