@@ -32,6 +32,18 @@ class MdbTest < ActiveSupport::TestCase
     end
   end
   
+  test "should raise an exception when mdb-tools is not installed" do
+    assert_raises(Mdb::MdbToolsNotInstalledError) do
+      database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
+      
+      # This test assumes that the tool `which` is in `/usr/bin`
+      # while `mdb-export` et al are installed elsewhere.
+      with_env "PATH" => "/usr/bin" do
+        database.read :Villains
+      end
+    end
+  end
+  
   test "should raise an exception if a table is not found" do
     database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
     assert_raises(Mdb::TableDoesNotExistError) do
@@ -59,5 +71,16 @@ class MdbTest < ActiveSupport::TestCase
   
   
   
+private
+  
+  def with_env(new_env)
+    begin
+      old_env = ENV.to_hash
+      ENV.replace(old_env.merge(new_env))
+      yield
+    ensure
+      ENV.replace(old_env)
+    end
+  end
   
 end
