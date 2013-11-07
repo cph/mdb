@@ -10,6 +10,7 @@ module Mdb
     
     
     def initialize(file, options={})
+      file = file.to_path if file.respond_to?(:to_path)
       raise FileDoesNotExistError, "\"#{file}\" does not exist" unless File.exist?(file)
       
       @file = file
