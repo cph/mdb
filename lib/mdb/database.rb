@@ -24,7 +24,7 @@ module Mdb
     
     
     def tables
-      @tables ||= execute("mdb-tables -1 #{file_name}").scan(/^\w+$/)
+      @tables ||= execute("mdb-tables -1 #{file_name}").scan(/[^\n]+/)
     end
     
     
