@@ -16,7 +16,7 @@ class MdbTest < ActiveSupport::TestCase
       database = Mdb.open(path)
       
       expected_counts = {
-        :Actors => 4,
+        :Actors => 5,
         :Movies => 7 }
       expected_counts.each do |table, expected_count|
         assert_equal expected_count, database[table].count, "The count of '#{table}' is off"
@@ -64,6 +64,12 @@ class MdbTest < ActiveSupport::TestCase
     database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
     actor = database.read(:Actors).first
     assert_equal "Chris", actor[:FirstName] # as opposed to "\"Chris\""
+  end
+  
+  test "should treat non-ASCII characters correctly" do
+    database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
+    actor = database.read(:Actors).last
+    assert_equal "Skarsgård", actor[:LastName]
   end
   
   
