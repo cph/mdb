@@ -1,7 +1,7 @@
-require 'tempfile'
-require 'shellwords'
-require 'open3'
-require 'csv'
+require "tempfile"
+require "shellwords"
+require "open3"
+require "csv"
 
 
 module Mdb
@@ -14,7 +14,7 @@ module Mdb
       raise FileDoesNotExistError, "\"#{file}\" does not exist" unless File.exist?(file)
       
       @file = file
-      @delimiter = options.fetch :delimiter, '|'
+      @delimiter = options.fetch :delimiter, "|"
     end
     
     
