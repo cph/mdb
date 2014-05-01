@@ -1,6 +1,5 @@
 require "tempfile"
 require "shellwords"
-require "open3"
 require "csv"
 
 
@@ -106,15 +105,21 @@ module Mdb
     
     def open_csv(table)
       command = "mdb-export -D '%F %T' -d #{Shellwords.escape(delimiter)} #{file_name} #{Shellwords.escape(table)}"
-      Open3.popen3(command) do |stdin, stdout, stderr|
-        yield CSV.new(stdout, col_sep: delimiter)
+      execute(command) do |file|
+        yield CSV.new(file, col_sep: delimiter)
       end
     end
     
     
     
     def execute(command)
-      `#{command} 2> /dev/null`
+      file = Tempfile.new("mdb")
+      system "#{command} > #{file.path} 2> /dev/null"
+      return file.read unless block_given?
+      yield file
+    ensure
+      file.close
+      file.unlink
     end
     
     
