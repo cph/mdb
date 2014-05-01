@@ -36,7 +36,7 @@ module Mdb
     
     
     def read_csv(table)
-      csv = execute "mdb-export -D '%F %T' -d \\| #{file_name} #{table}"
+      csv = execute "mdb-export -D '%F %T' -d \\| #{file_name} #{Shellwords.escape(table)}"
       empty_table!(table) if csv.empty?
       csv
     end
@@ -105,7 +105,7 @@ module Mdb
     
     
     def open_csv(table)
-      command = "mdb-export -D '%F %T' -d #{Shellwords.escape(delimiter)} #{file_name} #{table}"
+      command = "mdb-export -D '%F %T' -d #{Shellwords.escape(delimiter)} #{file_name} #{Shellwords.escape(table)}"
       Open3.popen3(command) do |stdin, stdout, stderr|
         yield CSV.new(stdout, col_sep: delimiter)
       end
