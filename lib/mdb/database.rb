@@ -114,15 +114,7 @@ module Mdb
     
     
     def execute(command)
-      stdout = `#{command} 2> /dev/null`
-      
-      # !todo: add fixture data and a test to prove this code
-      if stdout.respond_to?(:force_encoding)
-        stdout.force_encoding("Windows-1252")
-        stdout.encode!("utf-8")
-      end
-      
-      stdout
+      `#{command} 2> /dev/null`
     end
     
     
