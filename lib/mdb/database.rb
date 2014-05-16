@@ -90,7 +90,7 @@ module Mdb
     
     
     def empty_table!(table)
-      raise MdbToolsNotInstalledError if `which mdb-export 2> /dev/null`.empty?
+      raise MdbToolsNotInstalledError unless system("which mdb-export")
       raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" if !tables.member?(table.to_s)
       raise Error, "An error occurred when reading #{table.inspect} in #{file_name.inspect}"
     end
