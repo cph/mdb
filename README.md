@@ -31,6 +31,14 @@ database.tables
 database[:Movies]
 ```
 
+## Heroku
+
+mdb-tools on heroku requires a custom buildpack.
+
+Here is a sample project using this gem on heroku with configuration instructions:
+
+https://github.com/jkotchoff/heroku_rails_microsoft_access_mdb_example
+
 ## Contributing
 
 1. Fork it
