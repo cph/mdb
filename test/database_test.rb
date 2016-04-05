@@ -60,6 +60,13 @@ class MdbTest < ActiveSupport::TestCase
     assert_equal [:ID, :FirstName, :LastName, :Birthdate], database.columns(:Actors)
   end
 
+  test "should raise an exception if asked for the columns of a nonexistent table" do
+    database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
+    assert_raises(Mdb::TableDoesNotExistError) do
+      database.columns :Directors
+    end
+  end
+
   test "should treat quotation marks correctly" do
     database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
     actor = database.read(:Actors).first

@@ -29,7 +29,14 @@ module Mdb
 
 
     def columns(table)
-      open_csv(table) { |csv| csv.readline.map(&:to_sym) }
+      open_csv(table) do |csv|
+        line = csv.readline
+        unless line || tables.member?(table.to_s)
+          raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}"
+        end
+
+        (line || []).map(&:to_sym)
+      end
     end
 
 
