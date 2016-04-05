@@ -2,7 +2,7 @@ require "mdb/version"
 require "mdb/database"
 
 module Mdb
-  
+
   class FileDoesNotExistError < ArgumentError; end
   class TableDoesNotExistError < ArgumentError; end
   class MdbToolsNotInstalledError < ArgumentError
@@ -11,9 +11,9 @@ module Mdb
     end
   end
   class Error < RuntimeError; end
-  
+
   def self.open(file)
     Mdb::Database.new(file)
   end
-  
+
 end
