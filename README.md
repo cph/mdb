@@ -1,7 +1,8 @@
 # Mdb
 
-[![Build Status](https://travis-ci.org/concordia-publishing-house/mdb.png?branch=master)](https://travis-ci.org/concordia-publishing-house/mdb)
-[![Code Climate](https://codeclimate.com/github/concordia-publishing-house/mdb.png)](https://codeclimate.com/github/concordia-publishing-house/mdb)
+[![Gem Version](https://badge.fury.io/rb/mdb.svg)](https://rubygems.org/gems/mdb)
+[![Code Climate](https://codeclimate.com/github/cph/mdb.svg)](https://codeclimate.com/github/cph/mdb)
+[![Build Status](https://travis-ci.org/cph/mdb.svg)](https://travis-ci.org/cph/mdb)
 
 Wraps [mdb-tools](https://github.com/brianb/mdbtools) for reading Microsoft Access databases
 
