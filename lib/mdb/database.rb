@@ -105,8 +105,10 @@ module Mdb
 
     def execute(command)
       file = Tempfile.new("mdb")
-      system "#{command} > #{file.path} 2> /dev/null"
-      raise MdbToolsNotInstalledError if $?.exitstatus == 127
+      unless system "#{command} > #{file.path} 2> /dev/null"
+        raise MdbToolsNotInstalledError if $?.exitstatus == 127
+        raise Error, "#{command[/^\S+/]} exited with status #{$?.exitstatus}"
+      end
       return file.read unless block_given?
       yield file
     ensure

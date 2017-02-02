@@ -1,5 +1,6 @@
 require "rails"
 require "rails/test_help"
+require "shoulda/context"
 require "turn"
 require "pry"
 require "mdb"
