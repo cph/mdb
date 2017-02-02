@@ -97,7 +97,6 @@ module Mdb
 
 
     def empty_table!(table)
-      raise MdbToolsNotInstalledError unless system("which mdb-export")
       raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" if !tables.member?(table.to_s)
       raise Error, "An error occurred when reading #{table.inspect} in #{file_name.inspect}"
     end
@@ -122,6 +121,7 @@ module Mdb
     def execute(command)
       file = Tempfile.new("mdb")
       system "#{command} > #{file.path} 2> /dev/null"
+      raise MdbToolsNotInstalledError if $?.exitstatus == 127
       return file.read unless block_given?
       yield file
     ensure
