@@ -41,6 +41,23 @@ class MdbTest < ActiveSupport::TestCase
     end
   end
 
+  context "without permission to read the file" do
+    setup do
+      system "chmod u-r #{File.dirname(__FILE__)}/data/Protected.mdb"
+    end
+
+    teardown do
+      system "chmod u+r #{File.dirname(__FILE__)}/data/Protected.mdb"
+    end
+
+    should "raise an exception if mdb-tools fails for other reasons" do
+      assert_raises(Mdb::Error) do
+        database = Mdb.open "#{File.dirname(__FILE__)}/data/Protected.mdb"
+        database.read :Actors
+      end
+    end
+  end
+
   test "should raise an exception if a table is not found" do
     database = Mdb.open "#{File.dirname(__FILE__)}/data/Example2000.mdb"
     assert_raises(Mdb::TableDoesNotExistError) do

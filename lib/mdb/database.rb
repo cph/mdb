@@ -30,21 +30,16 @@ module Mdb
 
     def columns(table)
       open_csv(table) do |csv|
-        line = csv.readline
-        unless line || tables.member?(table.to_s)
-          raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}"
-        end
-
-        (line || []).map(&:to_sym)
+        (csv.readline || []).map(&:to_sym)
       end
     end
 
 
 
-    def read_csv(table)
-      csv = execute "mdb-export -D '%F %T' -d \\| #{file_name} #{Shellwords.escape(table)}"
-      empty_table!(table) if csv.empty?
-      csv
+    def read_csv(table, &block)
+      table = table.to_s
+      raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" unless tables.member?(table)
+      execute "mdb-export -D '%F %T' -d #{Shellwords.escape(delimiter)} #{file_name} #{Shellwords.escape(table)}", &block
     end
 
 
@@ -89,17 +84,7 @@ module Mdb
         end
       end
 
-      empty_table!(table) if count == 0
-
       count
-    end
-
-
-
-    def empty_table!(table)
-      raise MdbToolsNotInstalledError unless system("which mdb-export")
-      raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" if !tables.member?(table.to_s)
-      raise Error, "An error occurred when reading #{table.inspect} in #{file_name.inspect}"
     end
 
 
@@ -111,8 +96,7 @@ module Mdb
 
 
     def open_csv(table)
-      command = "mdb-export -D '%F %T' -d #{Shellwords.escape(delimiter)} #{file_name} #{Shellwords.escape(table)}"
-      execute(command) do |file|
+      read_csv(table) do |file|
         yield CSV.new(file, col_sep: delimiter)
       end
     end
@@ -121,7 +105,10 @@ module Mdb
 
     def execute(command)
       file = Tempfile.new("mdb")
-      system "#{command} > #{file.path} 2> /dev/null"
+      unless system "#{command} > #{file.path} 2> /dev/null"
+        raise MdbToolsNotInstalledError if $?.exitstatus == 127
+        raise Error, "#{command[/^\S+/]} exited with status #{$?.exitstatus}"
+      end
       return file.read unless block_given?
       yield file
     ensure
