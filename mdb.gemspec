@@ -1,16 +1,17 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'mdb/version'
+require "mdb/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "mdb"
   spec.version       = Mdb::VERSION
   spec.authors       = ["Robert Lail"]
   spec.email         = ["robert.lail@cph.org"]
+
   spec.description   = %q{A library for reading Microsoft Access databases}
   spec.summary       = %q{Wraps mdb-tools for reading and Microsoft Access databases (MDB)}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/cph/mdb"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
