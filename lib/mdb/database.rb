@@ -39,7 +39,7 @@ module Mdb
     def read_csv(table, &block)
       table = table.to_s
       raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" unless tables.member?(table)
-      execute "mdb-export -D '%F %T' -d #{Shellwords.escape(delimiter)} #{file_name} #{Shellwords.escape(table)}", &block
+      execute "mdb-export -D '%F %T' -T '%F %T' -d #{Shellwords.escape(delimiter)} #{file_name} #{Shellwords.escape(table)}", &block
     end
 
 
