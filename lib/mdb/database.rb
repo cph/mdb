@@ -39,7 +39,9 @@ module Mdb
     def read_csv(table, &block)
       table = table.to_s
       raise TableDoesNotExistError, "#{table.inspect} does not exist in #{file_name.inspect}" unless tables.member?(table)
-      execute "mdb-export -D '%F %T' -T '%F %T' -d #{Shellwords.escape(delimiter)} #{file_name} #{Shellwords.escape(table)}", &block
+      date_flags = "-D '%F %T'"
+      date_flags << " -T '%F %T'" if supports_datetime?
+      execute "mdb-export #{date_flags} -d #{Shellwords.escape(delimiter)} #{file_name} #{Shellwords.escape(table)}", &block
     end
 
 
@@ -114,6 +116,15 @@ module Mdb
     ensure
       file.close
       file.unlink
+    end
+
+
+
+    def supports_datetime?
+      return @supports_datetime if instance_variable_defined?(:@supports_datetime)
+
+      version = Gem::Version.new(`mdb-ver -M`.gsub(/mdbtools v/, ""))
+      @supports_datetime = version >= Gem::Version.new("0.9.0")
     end
 
 
