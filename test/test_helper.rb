@@ -1,6 +1,6 @@
 require "rails"
 require "rails/test_help"
+require "minitest/reporters/turn_reporter"
 require "shoulda/context"
-require "turn"
 require "pry"
 require "mdb"
