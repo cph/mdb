@@ -4,6 +4,10 @@
 
  - None
 
+## 0.5.0 (2021-10-19)
+
+ - Fixed compatibility with newer versions of mdbtools which require specifying date and time formats separately
+
 ## 0.4.1 (2017-03-23)
 
  - Filled in homepage in mdb.gemspec
